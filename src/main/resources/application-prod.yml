@@ -1,0 +1,25 @@
+server:
+    port: 8080
+    servlet:
+        session:
+            timeout: 600m
+    compression:
+        enabled: true
+        mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+
+spring:
+    datasource:
+        druid:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://db:3306/marsdb?serverTimezone=UTC
+            username: root
+            password: 123456
+    servlet:
+        multipart:
+            max-file-size: 500MB
+            max-request-size: 500MB
+    mvc:
+        static-path-pattern: /**
+    web:
+        resources:
+            static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${marsctf.imagePath}

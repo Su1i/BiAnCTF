@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: BiAnCTF-server
+  profiles:
+    active: dev
+

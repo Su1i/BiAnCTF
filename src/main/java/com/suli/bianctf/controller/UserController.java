@@ -3,6 +3,7 @@ package com.suli.bianctf.controller;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
+import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 @RestController
 @Tag(name = "用户接口")
 @RequiredArgsConstructor
-public class ApiUserController {
+public class UserController {
 
     private final UserService userService;
 
@@ -29,11 +30,12 @@ public class ApiUserController {
         return userService.emailLogin(emailLoginDTO);
     }
 
-//    @RequestMapping(value = "/emailRegister",method = RequestMethod.POST)
-//    @Operation(summary = "邮箱账号注册", method = "POST", description = "邮箱账号注册")
-//    public ResponseResult emailRegister(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
-//        return userAuthService.emailRegister(emailRegisterDTO);
-//    }
+    @SaIgnore
+    @PostMapping(value = "/emailRegister")
+    @Operation(summary = "邮箱账号注册", method = "POST", description = "邮箱账号注册")
+    public ResponseResult emailRegister(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
+        return userService.emailRegister(emailRegisterDTO);
+    }
 //
 //    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
 //    // @BusinessLogger(value = "个人中心模块-邮箱账号修改密码",type = "修改",desc = "邮箱账号修改密码")

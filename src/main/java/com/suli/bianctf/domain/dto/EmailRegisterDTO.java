@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @author blue
+ * @author suli
  * @date 2022/2/25
  * @apiNote
  */
@@ -21,6 +21,13 @@ public class EmailRegisterDTO {
     private String email;
 
     /**
+     *  邮箱
+     */
+    @NotBlank(message = "用户昵称不能为空")
+    @Schema(name = "userName", required = true, type = "String")
+    private String userName;
+
+    /**
      * 密码
      */
     @NotBlank(message = "密码不能为空")
@@ -28,14 +35,11 @@ public class EmailRegisterDTO {
     private String password;
 
     /**
-     * 昵称
+     * 校验密码
      */
-    private String nickname;
+    @NotBlank(message = "请再次输入密码")
+    @Schema(name = "password", required = true, type = "String")
+    private String checkPwd;
 
-
-    /**
-     * 验证码
-     */
-    private String code;
 
 }

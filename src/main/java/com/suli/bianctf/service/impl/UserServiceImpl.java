@@ -2,12 +2,14 @@ package com.suli.bianctf.service.impl;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
+import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.domain.vo.UserVO;
 import com.suli.bianctf.enums.UserStatusEnum;
 import com.suli.bianctf.exception.BusinessException;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -203,7 +206,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         // 密码验证
         if (!SaSecureUtil.md5(emailLoginDTO.getPassword()).equals(user.getPassword())) {
-//            System.out.println(SaSecureUtil.md5(emailLoginDTO.getPassword()));
             return ResponseResult.error(ERROR_PASSWORD.code, ERROR_PASSWORD.desc);
         }
 
@@ -216,6 +218,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         // return ResponseResult.success(userInfoVO);
         return ResponseResult.success();
+    }
+
+
+    @Override
+    public ResponseResult emailRegister(EmailRegisterDTO emailRegisterDTO){
+        //检查用户两次输入的密码是否一致
+        String password = emailRegisterDTO.getPassword();
+        String checkPwd = emailRegisterDTO.getCheckPwd();
+        //如果不一致则返回错误信息
+        if (!password.equals(checkPwd)){
+            return ResponseResult.error("密码不一致");
+        }
+        String email = emailRegisterDTO.getEmail();
+        //查询用户邮箱是否已注册
+        QueryWrapper<User> queryWrapper = new QueryWrapper<User>().eq("email", email);
+        List<User> userList = baseMapper.selectList(queryWrapper);
+        //如果注册则返回注册失败
+        if (!userList.isEmpty()){
+            return ResponseResult.error("用户邮箱已注册");
+        }
+        //用户未注册则注册用户
+        User registerUser = new User();
+        registerUser.setEmail(email);
+        registerUser.setUserName(emailRegisterDTO.getUserName());
+        registerUser.setPassword(SaSecureUtil.md5(password));
+        registerUser.setCreateBy("system");
+        registerUser.setCreateTime(DateUtil.date());
+        registerUser.setUpdateTime(DateUtil.date());
+        int i = baseMapper.insert(registerUser);
+        if (i==0){
+            return ResponseResult.error("插入失败");
+        }
+        return ResponseResult.success("注册成功");
     }
 
 

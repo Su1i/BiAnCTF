@@ -1,5 +1,6 @@
 package com.suli.bianctf.service;
 
+import cn.dev33.satoken.util.SaResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @author 32937
+* @author suli
 * @description 针对表【lab_user(实验室用户信息表)】的数据库操作Service
 * @createDate 2022-11-17 12:11:47
 */
@@ -40,4 +41,6 @@ public interface UserService extends IService<User> {
     ResponseResult emailLogin(EmailLoginDTO emailLoginDTO);
 
     ResponseResult emailRegister(EmailRegisterDTO emailRegisterDTO);
+
+    SaResult logout();
 }

@@ -1,6 +1,8 @@
 package com.suli.bianctf.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
@@ -35,6 +37,13 @@ public class UserController {
     @Operation(summary = "邮箱账号注册", method = "POST", description = "邮箱账号注册")
     public ResponseResult emailRegister(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
         return userService.emailRegister(emailRegisterDTO);
+    }
+
+    // 注销
+    @Operation(summary = "注销", method = "GET", description = "注销")
+    @RequestMapping("/logout")
+    public SaResult logout() {
+        return userService.logout();
     }
 //
 //    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)

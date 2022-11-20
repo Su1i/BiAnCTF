@@ -2,6 +2,7 @@ package com.suli.bianctf.service.impl;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 import static com.suli.bianctf.common.ResultCode.*;
 
 /**
-* @author 32937
+* @author suli
 * @description 针对表【lab_user(实验室用户信息表)】的数据库操作Service实现
 * @createDate 2022-11-17 12:11:47
 */
@@ -211,12 +212,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         //登录
         StpUtil.login(user.getUserId());
-
-//        //组装数据
-//        UserInfoVO userInfoVO = UserInfoVO.builder().id(user.getId()).userInfoId(auth.getId()).avatar(auth.getAvatar()).nickname(auth.getNickname())
-//                .intro(auth.getIntro()).webSite(auth.getWebSite()).email(user.getUsername()).loginType(user.getLoginType()).token(StpUtil.getTokenValue()).build();
-
-        // return ResponseResult.success(userInfoVO);
         return ResponseResult.success();
     }
 
@@ -253,6 +248,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return ResponseResult.success("注册成功");
     }
 
+    @Override
+    public SaResult logout() {
+        if (StpUtil.getLoginIdDefaultNull() == null){
+            return SaResult.error("用户未登录");
+        }
+        StpUtil.logout();
+        return SaResult.ok("注销成功");
+    }
 
     //---------------自定义方法开始-------------
 

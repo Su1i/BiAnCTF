@@ -4,6 +4,7 @@ import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,6 +13,7 @@ import com.suli.bianctf.domain.User;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.domain.dto.UpdatePwdDTO;
+import com.suli.bianctf.domain.dto.UpdateUserDTO;
 import com.suli.bianctf.domain.vo.UserVO;
 import com.suli.bianctf.enums.UserStatusEnum;
 import com.suli.bianctf.exception.BusinessException;
@@ -274,6 +276,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return SaResult.error("密码修改失败");
         }
         return SaResult.ok("密码修改成功");
+    }
+
+    @Override
+    public SaResult updateUser(UpdateUserDTO updateUserDTO) {
+        Long id = StpUtil.getLoginIdAsLong();
+        User user = baseMapper.selectById(id);
+        String email = updateUserDTO.getEmail();
+        if (!StrUtil.hasBlank(email)){
+            //查询用户邮箱是否已注册
+            QueryWrapper<User> queryWrapper = new QueryWrapper<User>().eq("email", email);
+            List<User> userList = baseMapper.selectList(queryWrapper);
+            //如果注册则返回修改邮箱失败
+            if (!userList.isEmpty()){
+                return SaResult.error("用户邮箱已注册");
+            }
+            //如果未注册则修改邮箱
+            user.setEmail(email);
+        }
+        user.setUserName(updateUserDTO.getUserName());
+        user.setRealName(updateUserDTO.getRealName());
+        user.setStudentId(updateUserDTO.getStudentId());
+        user.setCollege(updateUserDTO.getCollege());
+        user.setSpeciality(updateUserDTO.getSpeciality());
+        user.setGrade(updateUserDTO.getGrade());
+        user.setIdentityCard(updateUserDTO.getIdentityCard());
+        user.setPhoneNumber(updateUserDTO.getPhoneNumber());
+        user.setSex(updateUserDTO.getSex());
+        user.setAvatar(updateUserDTO.getAvatar());
+        user.setUpdateTime(DateUtil.date());
+        user.setUpdateBy(updateUserDTO.getUserName());
+        int i = baseMapper.updateById(user);
+        if (i==0){
+            return SaResult.error("修改失败");
+        }
+
+        return SaResult.ok("修改成功");
     }
 
     //---------------自定义方法开始-------------

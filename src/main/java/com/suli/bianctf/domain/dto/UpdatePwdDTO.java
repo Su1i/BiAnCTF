@@ -9,14 +9,14 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UpdatePwdDTO {
     /**
-     *  邮箱
+     *  旧密码
      */
     @NotBlank(message = "旧密码不能为空")
     @Schema(name = "oldPwd", required = true, type = "String")
     private String oldPwd;
 
     /**
-     * 密码
+     * 新密码
      */
     @NotBlank(message = "新密码不能为空")
     @Schema(name = "newPwd", required = true, type = "String")

@@ -2,12 +2,12 @@ package com.suli.bianctf.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.domain.dto.UpdatePwdDTO;
+import com.suli.bianctf.domain.dto.UpdateUserDTO;
 import com.suli.bianctf.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -70,11 +70,11 @@ public class UserController {
 //        return userAuthService.bindEmail(vo);
 //    }
 //
-//    // @BusinessLogger(value = "个人中心模块-修改用户信息",type = "修改",desc = "修改用户信息")
-//    @SaCheckLogin
-//    @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
-//    public ResponseResult updateUser(@RequestBody UserAuthDTO vo){
-//        return userAuthService.updateUser(vo);
-//    }
+    @SaCheckLogin
+    @Operation(summary = "修改用户信息", method = "POST", description = "修改用户信息")
+    @PostMapping(value = "/updateUser")
+    public SaResult updateUser(@RequestBody UpdateUserDTO updateUserDTO){
+        return userService.updateUser(updateUserDTO);
+    }
 }
 

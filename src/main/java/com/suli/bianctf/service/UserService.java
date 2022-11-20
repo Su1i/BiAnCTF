@@ -7,6 +7,7 @@ import com.suli.bianctf.domain.User;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.domain.dto.UpdatePwdDTO;
+import com.suli.bianctf.domain.dto.UpdateUserDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -46,4 +47,6 @@ public interface UserService extends IService<User> {
     SaResult logout();
 
     SaResult updatePassword(UpdatePwdDTO updatePwdDTO);
+
+    SaResult updateUser(UpdateUserDTO updateUserDTO);
 }

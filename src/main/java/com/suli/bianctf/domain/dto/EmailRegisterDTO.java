@@ -21,7 +21,7 @@ public class EmailRegisterDTO {
     private String email;
 
     /**
-     *  邮箱
+     *  昵称
      */
     @NotBlank(message = "用户昵称不能为空")
     @Schema(name = "userName", required = true, type = "String")

@@ -60,3 +60,46 @@ create table lab_direction (
 -- ----------------------------
 insert into lab_direction values(1,  'web', 'web安全', '0', 'admin', sysdate(), '', null, '测试');
 insert into lab_direction values(2,  'pwn', '二进制安全', '0', 'admin', sysdate(), '', null, '测试');
+
+
+
+-- ----------------------------
+-- 4、系统角色表
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role`  (
+                           `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                           `code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色编码',
+                           `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
+                           `remarks` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
+                           `created_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理-角色表 ' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- 初始化系统角色表
+-- ----------------------------
+INSERT INTO `sys_role` VALUES (1, 'admin', '管理员', '系统管理员', '2019-03-28 15:51:56', '2022-01-06 18:03:34');
+INSERT INTO `sys_role` VALUES (2, 'user', '用户', '用户', '2021-12-27 07:01:39', '2021-12-27 07:01:39');
+INSERT INTO `sys_role` VALUES (5, 'test', '演示', '演示账号', '2021-11-14 12:23:25', '2022-01-06 18:03:43');
+
+
+-- ----------------------------
+-- 5、用户角色表
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role`  (
+                                `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                `role_id` int(10) NULL DEFAULT NULL COMMENT '角色ID',
+                                `user_id` int(10) NULL DEFAULT NULL COMMENT '用户ID',
+                                `created_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `last_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理 - 用户角色关联表 ' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- 初始化用户角色表
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES (12, 1, 7, '2019-08-21 10:49:41', '2019-08-21 10:49:41');
+INSERT INTO `sys_user_role` VALUES (34, 5, 15, '2021-11-14 12:35:03', '2021-11-14 12:35:03');

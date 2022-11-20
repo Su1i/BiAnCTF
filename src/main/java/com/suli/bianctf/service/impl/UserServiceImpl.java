@@ -11,6 +11,7 @@ import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
+import com.suli.bianctf.domain.dto.UpdatePwdDTO;
 import com.suli.bianctf.domain.vo.UserVO;
 import com.suli.bianctf.enums.UserStatusEnum;
 import com.suli.bianctf.exception.BusinessException;
@@ -255,6 +256,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         StpUtil.logout();
         return SaResult.ok("注销成功");
+    }
+
+    @Override
+    public SaResult updatePassword(UpdatePwdDTO updatePwdDTO) {
+        if (!updatePwdDTO.getNewPwd().equals(updatePwdDTO.getCheckNewPwd())){
+            return SaResult.error("两次输入的新密码不相同");
+        }
+        Long id = StpUtil.getLoginIdAsLong();
+        User user = baseMapper.selectById(id);
+        if (!SaSecureUtil.md5(updatePwdDTO.getOldPwd()).equals(user.getPassword())){
+            return SaResult.error("旧密码输入错误");
+        }
+        user.setPassword(SaSecureUtil.md5(updatePwdDTO.getNewPwd()));
+        int i = baseMapper.updateById(user);
+        if (i==0){
+            return SaResult.error("密码修改失败");
+        }
+        return SaResult.ok("密码修改成功");
     }
 
     //---------------自定义方法开始-------------

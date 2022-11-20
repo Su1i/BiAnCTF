@@ -1,11 +1,13 @@
 package com.suli.bianctf.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
+import com.suli.bianctf.domain.dto.UpdatePwdDTO;
 import com.suli.bianctf.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,19 +42,21 @@ public class UserController {
     }
 
     // 注销
+
+    @SaCheckLogin()
     @Operation(summary = "注销", method = "GET", description = "注销")
     @RequestMapping("/logout")
     public SaResult logout() {
         return userService.logout();
     }
-//
-//    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
-//    // @BusinessLogger(value = "个人中心模块-邮箱账号修改密码",type = "修改",desc = "邮箱账号修改密码")
-//    public ResponseResult updatePassword(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
-//        return userAuthService.updatePassword(emailRegisterDTO);
-//    }
-//
-//
+
+    @PostMapping(value = "/updatePassword")
+    @Operation(summary = "邮箱账号修改密码", method = "GET", description = "邮箱账号修改密码")
+    public SaResult updatePassword(@Valid @RequestBody UpdatePwdDTO updatePwdDTO){
+        return userService.updatePassword(updatePwdDTO);
+    }
+
+
 //    @RequestMapping(value = "/sendEmailCode",method = RequestMethod.GET)
 //    @Operation(summary = "发送邮箱验证码", method = "GET",  description = "发送邮箱验证码")
 //    public ResponseResult sendEmailCode(String email){

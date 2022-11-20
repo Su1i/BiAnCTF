@@ -3,6 +3,7 @@ package com.suli.bianctf.exception;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 
+import cn.dev33.satoken.util.SaResult;
 import com.suli.bianctf.common.ResponseResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import static com.suli.bianctf.common.ResultCode.*;
  * @date 2022/3/11
  * @apiNote
  */
-@ControllerAdvice(basePackages = "com.shiyi")
+@ControllerAdvice(basePackages = "com.suli")
 public class GlobalException {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
@@ -50,10 +51,30 @@ public class GlobalException {
 
     // 登录异常
     @ExceptionHandler(NotLoginException.class)
-    @ResponseBody
-    public ResponseResult NotLoginExceptionHandler(NotLoginException ex) {
-        logger.error( " msg : " + ex.getMessage(), ex);
-        return ResponseResult.error(NOT_LOGIN.getCode(),NOT_LOGIN.getDesc());
+    public SaResult handlerNotLoginException(NotLoginException nle)
+            throws Exception {
+
+        // 打印堆栈，以供调试
+        nle.printStackTrace();
+
+        // 判断场景值，定制化异常信息
+        String message = "";
+        if (nle.getType().equals(NotLoginException.NOT_TOKEN)) {
+            message = "未提供token";
+        } else if (nle.getType().equals(NotLoginException.INVALID_TOKEN)) {
+            message = "token无效";
+        } else if (nle.getType().equals(NotLoginException.TOKEN_TIMEOUT)) {
+            message = "token已过期";
+        } else if (nle.getType().equals(NotLoginException.BE_REPLACED)) {
+            message = "token已被顶下线";
+        } else if (nle.getType().equals(NotLoginException.KICK_OUT)) {
+            message = "token已被踢下线";
+        } else {
+            message = "当前会话未登录";
+        }
+
+        // 返回给前端
+        return SaResult.error(message);
     }
 
     // 权限异常

@@ -1,5 +1,6 @@
 package com.suli.bianctf.service.impl;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
@@ -20,6 +21,7 @@ import com.suli.bianctf.exception.BusinessException;
 import com.suli.bianctf.mapper.UserMapper;
 import com.suli.bianctf.service.UserService;
 import com.suli.bianctf.utils.AesEncryptUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +44,7 @@ import static com.suli.bianctf.common.ResultCode.*;
 * @createDate 2022-11-17 12:11:47
 */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService {
 
@@ -139,26 +142,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 //        return ResponseResult.success(menuTree);
 //    }
 
-//    /**
-//     * 修改密码
-//     * @param map
-//     * @return
-//     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public ResponseResult updatePassword(Map<String, String> map) {
-//
-//        User user = baseMapper.selectById(StpUtil.getLoginIdAsInt());
-//        Assert.notNull(user,ERROR_USER_NOT_EXIST.getDesc());
-//
-//        boolean isValid = AesEncryptUtils.validate(user.getPassword(),map.get("oldPassword"));
-//        Assert.isTrue(isValid,"旧密码校验不通过!");
-//
-//        String newPassword = AesEncryptUtils.aesEncrypt(map.get("newPassword"));
-//        user.setPassword(newPassword);
-//        baseMapper.updateById(user);
-//        return ResponseResult.success("修改成功");
-//    }
 
 //    /**
 //     * 在线用户
@@ -313,6 +296,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         return SaResult.ok("修改成功");
     }
+
 
     //---------------自定义方法开始-------------
 

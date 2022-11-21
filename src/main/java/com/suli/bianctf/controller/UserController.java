@@ -76,5 +76,14 @@ public class UserController {
     public SaResult updateUser(@RequestBody UpdateUserDTO updateUserDTO){
         return userService.updateUser(updateUserDTO);
     }
+
+    @SaIgnore
+    @GetMapping(value = "/quantity")
+    @Operation(summary = "获取用户数量", method = "GET", description = "获取用户数量")
+    public SaResult quantity(){
+        int count = userService.count();
+        String s = String.valueOf(count);
+        return SaResult.ok(s);
+    }
 }
 

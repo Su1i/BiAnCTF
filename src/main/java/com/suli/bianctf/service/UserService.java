@@ -49,4 +49,6 @@ public interface UserService extends IService<User> {
     SaResult updatePassword(UpdatePwdDTO updatePwdDTO);
 
     SaResult updateUser(UpdateUserDTO updateUserDTO);
+
+
 }

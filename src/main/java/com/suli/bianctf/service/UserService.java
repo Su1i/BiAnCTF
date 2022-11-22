@@ -1,6 +1,8 @@
 package com.suli.bianctf.service;
 
 import cn.dev33.satoken.util.SaResult;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
@@ -8,6 +10,7 @@ import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.domain.dto.UpdatePwdDTO;
 import com.suli.bianctf.domain.dto.UpdateUserDTO;
+import com.suli.bianctf.domain.vo.SysUserQueryVo;
 
 import java.util.List;
 import java.util.Map;
@@ -49,6 +52,10 @@ public interface UserService extends IService<User> {
     SaResult updatePassword(UpdatePwdDTO updatePwdDTO);
 
     SaResult updateUser(UpdateUserDTO updateUserDTO);
+
+    //用户列表
+    IPage<User> selectPage(Page<User> pageParam, SysUserQueryVo sysUserQueryVo);
+
 
 
 }

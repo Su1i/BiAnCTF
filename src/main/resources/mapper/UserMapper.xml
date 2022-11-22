@@ -41,4 +41,29 @@
         update_time,remark
     </sql>
 
+    <select id="selectPage" resultMap="BaseResultMap">
+        select  user_id,email,user_name,real_name,student_id,college,speciality,
+        grade,identity_card,phone_number,sex,
+        avatar,user_type,status,
+        del_flag,login_ip,login_date,
+        create_by,create_time,update_by,
+        update_time,remark
+        from lab_user
+        <where>
+<!--            <if test="vo.keyword != null and vo.keyword != ''">-->
+<!--                and (username like CONCAT('%',#{vo.keyword},'%')-->
+<!--                or  name like CONCAT('%',#{vo.keyword},'%')-->
+<!--                or  phone like CONCAT('%',#{vo.keyword},'%'))-->
+<!--            </if>-->
+<!--            <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">-->
+<!--                and create_time >= #{vo.createTimeBegin}-->
+<!--            </if>-->
+<!--            <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">-->
+<!--                and create_time &lt;= #{vo.createTimeEnd}-->
+<!--            </if>-->
+#             and
+           del_flag=0
+        </where>
+        order by user_id desc
+    </select>
 </mapper>

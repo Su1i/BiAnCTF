@@ -2,6 +2,7 @@ package com.suli.bianctf.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
@@ -105,8 +106,9 @@ public class User implements Serializable {
     private String status;
 
     /**
-     * 删除标志（0代表存在 2代表删除）
+     * 删除标志（0代表存在 1代表删除）
      */
+    @TableLogic
     @TableField("del_flag")
     private String delFlag;
 

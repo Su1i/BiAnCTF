@@ -1,7 +1,11 @@
 package com.suli.bianctf.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.suli.bianctf.domain.User;
+import com.suli.bianctf.domain.vo.SysUserQueryVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author 32937
@@ -10,6 +14,9 @@ import com.suli.bianctf.domain.User;
 * @Entity com.suli.bianctf.domain.User
 */
 public interface UserMapper extends BaseMapper<User> {
+
+    IPage<User> selectPage(Page<User> pageParam, @Param("vo") SysUserQueryVo sysUserQueryVo);
+
 
 }
 

@@ -7,6 +7,7 @@ import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.suli.bianctf.common.ResponseResult;
@@ -15,6 +16,7 @@ import com.suli.bianctf.domain.dto.EmailLoginDTO;
 import com.suli.bianctf.domain.dto.EmailRegisterDTO;
 import com.suli.bianctf.domain.dto.UpdatePwdDTO;
 import com.suli.bianctf.domain.dto.UpdateUserDTO;
+import com.suli.bianctf.domain.vo.SysUserQueryVo;
 import com.suli.bianctf.domain.vo.UserVO;
 import com.suli.bianctf.enums.UserStatusEnum;
 import com.suli.bianctf.exception.BusinessException;
@@ -295,6 +297,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         return SaResult.ok("修改成功");
+    }
+
+    //用户列表
+    @Override
+    public IPage<User> selectPage(Page<User> pageParam, SysUserQueryVo sysUserQueryVo) {
+        return baseMapper.selectPage(pageParam,sysUserQueryVo);
     }
 
 

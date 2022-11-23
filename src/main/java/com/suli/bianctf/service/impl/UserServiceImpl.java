@@ -12,10 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
-import com.suli.bianctf.domain.dto.EmailLoginDTO;
-import com.suli.bianctf.domain.dto.EmailRegisterDTO;
-import com.suli.bianctf.domain.dto.UpdatePwdDTO;
-import com.suli.bianctf.domain.dto.UpdateUserDTO;
+import com.suli.bianctf.domain.dto.*;
 import com.suli.bianctf.domain.vo.SysUserQueryVo;
 import com.suli.bianctf.domain.vo.UserVO;
 import com.suli.bianctf.enums.UserStatusEnum;
@@ -303,6 +300,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public IPage<User> selectPage(Page<User> pageParam, SysUserQueryVo sysUserQueryVo) {
         return baseMapper.selectPage(pageParam,sysUserQueryVo);
+    }
+
+    //管理员修改用户密码
+
+    @Override
+    public SaResult editPassword(EditPwdDTO editPwdDTO) {
+        if (!editPwdDTO.getNewPwd().equals(editPwdDTO.getCheckNewPwd())){
+            return SaResult.error("两次输入的新密码不相同");
+        }
+        String userId = editPwdDTO.getUserId();
+        User user = baseMapper.selectById(userId);
+        user.setPassword(SaSecureUtil.md5(editPwdDTO.getNewPwd()));
+        int i = baseMapper.updateById(user);
+        if (i==0){
+            return SaResult.error("密码修改失败");
+        }
+        return SaResult.ok("密码修改成功");
     }
 
 

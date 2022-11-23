@@ -12,10 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
-import com.suli.bianctf.domain.dto.EmailLoginDTO;
-import com.suli.bianctf.domain.dto.EmailRegisterDTO;
-import com.suli.bianctf.domain.dto.UpdatePwdDTO;
-import com.suli.bianctf.domain.dto.UpdateUserDTO;
+import com.suli.bianctf.domain.dto.*;
 import com.suli.bianctf.domain.vo.SysUserQueryVo;
 import com.suli.bianctf.mapper.UserMapper;
 import com.suli.bianctf.service.UserService;
@@ -56,10 +53,10 @@ public class AdminUserController {
 //        return userService.logout();
 //    }
 
-    @PostMapping(value = "/updatePassword")
-    @Operation(summary = "邮箱账号修改密码", method = "GET", description = "邮箱账号修改密码")
-    public SaResult updatePassword(@Valid @RequestBody UpdatePwdDTO updatePwdDTO){
-        return userService.updatePassword(updatePwdDTO);
+    @PostMapping(value = "/editPassword")
+    @Operation(summary = "修改用户密码", method = "POST", description = "修改用户密码")
+    public SaResult editPassword(@Valid @RequestBody EditPwdDTO editPwdDTO){
+        return userService.editPassword(editPwdDTO);
     }
 
 
@@ -76,12 +73,12 @@ public class AdminUserController {
 //        return userAuthService.bindEmail(vo);
 //    }
 //
-    @SaCheckLogin
-    @Operation(summary = "修改用户信息", method = "POST", description = "修改用户信息")
-    @PostMapping(value = "/updateUser")
-    public SaResult updateUser(@RequestBody UpdateUserDTO updateUserDTO){
-        return userService.updateUser(updateUserDTO);
-    }
+//    @SaCheckLogin
+//    @Operation(summary = "修改用户信息", method = "POST", description = "修改用户信息")
+//    @PostMapping(value = "/updateUser")
+//    public SaResult updateUser(@RequestBody UpdateUserDTO updateUserDTO){
+//        return userService.updateUser(updateUserDTO);
+//    }
 
 //    @SaIgnore
 //    @GetMapping(value = "/quantity")

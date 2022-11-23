@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
-import com.suli.bianctf.domain.dto.EmailLoginDTO;
-import com.suli.bianctf.domain.dto.EmailRegisterDTO;
-import com.suli.bianctf.domain.dto.UpdatePwdDTO;
-import com.suli.bianctf.domain.dto.UpdateUserDTO;
+import com.suli.bianctf.domain.dto.*;
 import com.suli.bianctf.domain.vo.SysUserQueryVo;
 
 import java.util.List;
@@ -57,5 +54,6 @@ public interface UserService extends IService<User> {
     IPage<User> selectPage(Page<User> pageParam, SysUserQueryVo sysUserQueryVo);
 
 
-
+    //管理员修改用户密码
+    SaResult editPassword(EditPwdDTO editPwdDTO);
 }

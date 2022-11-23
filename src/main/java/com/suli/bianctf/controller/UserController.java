@@ -37,7 +37,7 @@ public class UserController {
     @SaIgnore
     @PostMapping(value = "/emailRegister")
     @Operation(summary = "邮箱账号注册", method = "POST", description = "邮箱账号注册")
-    public ResponseResult emailRegister(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
+    public SaResult emailRegister(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
         return userService.emailRegister(emailRegisterDTO);
     }
 

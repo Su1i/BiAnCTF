@@ -1,4 +1,4 @@
-package com.suli.bianctf.domain.dto;
+package com.suli.bianctf.domain.dto.admin;
 
 import lombok.Data;
 

@@ -2,17 +2,14 @@ package com.suli.bianctf.controller.admin;
 
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.util.SaResult;
-import cn.hutool.db.Db;
-import cn.hutool.db.Entity;
-import cn.hutool.db.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
-import com.suli.bianctf.domain.dto.*;
+import com.suli.bianctf.domain.dto.EmailRegisterDTO;
+import com.suli.bianctf.domain.dto.admin.EditPwdDTO;
+import com.suli.bianctf.domain.dto.admin.EditUserDTO;
 import com.suli.bianctf.domain.vo.SysUserQueryVo;
 import com.suli.bianctf.mapper.UserMapper;
 import com.suli.bianctf.service.UserService;
@@ -22,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author suli
@@ -39,6 +34,17 @@ public class AdminUserController {
     private final UserMapper userMapper;
 
 
+    @PostMapping(value = "/addUser")
+    @Operation(summary = "添加用户", method = "POST", description = "添加用户")
+    public SaResult addUser(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
+        return userService.emailRegister(emailRegisterDTO);
+    }
+
+    @DeleteMapping (value = "/deleteUser/{id}")
+    @Operation(summary = "删除用户", method = "DELETE", description = "删除用户")
+    public SaResult deleteUser(@PathVariable Long id){
+        return userService.deleteUser(id);
+    }
 
     @PostMapping(value = "/editPassword")
     @Operation(summary = "修改用户密码", method = "POST", description = "修改用户密码")

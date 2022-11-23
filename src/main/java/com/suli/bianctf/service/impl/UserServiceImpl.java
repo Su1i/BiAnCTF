@@ -1,6 +1,5 @@
 package com.suli.bianctf.service.impl;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
@@ -14,27 +13,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
 import com.suli.bianctf.domain.dto.*;
+import com.suli.bianctf.domain.dto.admin.EditPwdDTO;
+import com.suli.bianctf.domain.dto.admin.EditUserDTO;
 import com.suli.bianctf.domain.vo.SysUserQueryVo;
-import com.suli.bianctf.domain.vo.UserVO;
-import com.suli.bianctf.enums.UserStatusEnum;
 import com.suli.bianctf.exception.BusinessException;
 import com.suli.bianctf.mapper.UserMapper;
 import com.suli.bianctf.service.UserService;
-import com.suli.bianctf.utils.AesEncryptUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static com.suli.bianctf.common.ResultCode.*;
 
@@ -203,13 +191,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
     @Override
-    public ResponseResult emailRegister(EmailRegisterDTO emailRegisterDTO){
+    public SaResult emailRegister(EmailRegisterDTO emailRegisterDTO){
         //检查用户两次输入的密码是否一致
         String password = emailRegisterDTO.getPassword();
         String checkPwd = emailRegisterDTO.getCheckPwd();
         //如果不一致则返回错误信息
         if (!password.equals(checkPwd)){
-            return ResponseResult.error("密码不一致");
+            return SaResult.error("密码不一致");
         }
         String email = emailRegisterDTO.getEmail();
         //查询用户邮箱是否已注册
@@ -217,7 +205,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         List<User> userList = baseMapper.selectList(queryWrapper);
         //如果注册则返回注册失败
         if (!userList.isEmpty()){
-            return ResponseResult.error("用户邮箱已注册");
+            return SaResult.error("用户邮箱已注册");
         }
         //用户未注册则注册用户
         User registerUser = new User();
@@ -229,9 +217,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         registerUser.setUpdateTime(DateUtil.date());
         int i = baseMapper.insert(registerUser);
         if (i==0){
-            return ResponseResult.error("插入失败");
+            return SaResult.error("插入失败");
         }
-        return ResponseResult.success("注册成功");
+        return SaResult.ok("注册成功");
     }
 
     @Override
@@ -264,9 +252,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public SaResult updateUser(UpdateUserDTO updateUserDTO) {
         Long id = StpUtil.getLoginIdAsLong();
-        User user = baseMapper.selectById(id);
         String email = updateUserDTO.getEmail();
-        if (!StrUtil.hasBlank(email)){
+        if (StrUtil.hasBlank(email)){
+            return SaResult.error("用户邮箱不能为空");
+        }
+        User user = baseMapper.selectById(id);
+
+        if (!user.getEmail().equals(email)){
             //查询用户邮箱是否已注册
             QueryWrapper<User> queryWrapper = new QueryWrapper<User>().eq("email", email);
             List<User> userList = baseMapper.selectList(queryWrapper);
@@ -275,20 +267,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 return SaResult.error("用户邮箱已注册");
             }
             //如果未注册则修改邮箱
-            user.setEmail(email);
+//            user.setEmail(email);
         }
-        user.setUserName(updateUserDTO.getUserName());
-        user.setRealName(updateUserDTO.getRealName());
-        user.setStudentId(updateUserDTO.getStudentId());
-        user.setCollege(updateUserDTO.getCollege());
-        user.setSpeciality(updateUserDTO.getSpeciality());
-        user.setGrade(updateUserDTO.getGrade());
-        user.setIdentityCard(updateUserDTO.getIdentityCard());
-        user.setPhoneNumber(updateUserDTO.getPhoneNumber());
-        user.setSex(updateUserDTO.getSex());
-        user.setAvatar(updateUserDTO.getAvatar());
-        user.setUpdateTime(DateUtil.date());
-        user.setUpdateBy(updateUserDTO.getUserName());
+        BeanUtil.copyProperties(updateUserDTO,user);
         int i = baseMapper.updateById(user);
         if (i==0){
             return SaResult.error("修改失败");
@@ -345,6 +326,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         return SaResult.ok("修改成功");
+    }
+
+    @Override
+    public SaResult deleteUser(Long id) {
+        int i = baseMapper.deleteById(id);
+        if (i==0){
+            return SaResult.error("删除失败");
+        }
+
+        return SaResult.ok("删除成功");
     }
 
     //---------------自定义方法开始-------------

@@ -1,4 +1,4 @@
-package com.suli.bianctf.domain.dto;
+package com.suli.bianctf.domain.dto.admin;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

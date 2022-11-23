@@ -7,10 +7,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.suli.bianctf.common.ResponseResult;
 import com.suli.bianctf.domain.User;
 import com.suli.bianctf.domain.dto.*;
+import com.suli.bianctf.domain.dto.admin.EditPwdDTO;
+import com.suli.bianctf.domain.dto.admin.EditUserDTO;
 import com.suli.bianctf.domain.vo.SysUserQueryVo;
-
-import java.util.List;
-import java.util.Map;
 
 /**
 * @author suli
@@ -42,7 +41,7 @@ public interface UserService extends IService<User> {
 
     ResponseResult emailLogin(EmailLoginDTO emailLoginDTO);
 
-    ResponseResult emailRegister(EmailRegisterDTO emailRegisterDTO);
+    SaResult emailRegister(EmailRegisterDTO emailRegisterDTO);
 
     SaResult logout();
 
@@ -60,4 +59,7 @@ public interface UserService extends IService<User> {
 
     //管理员修改用户信息
     SaResult editUser(EditUserDTO editUserDTO);
+
+    //删除用户
+    SaResult deleteUser(Long id);
 }

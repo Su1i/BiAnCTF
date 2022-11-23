@@ -38,20 +38,7 @@ public class AdminUserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-//    @SaIgnore
-//    @PostMapping(value = "/emailLogin")
-//    @Operation(summary = "邮箱登录", method = "POST", description = "邮箱登录")
-//    public ResponseResult emailLogin(@Valid @RequestBody EmailLoginDTO emailLoginDTO){
-//        return userService.emailLogin(emailLoginDTO);
-//    }
 
-
-//    // 注销
-//    @Operation(summary = "注销", method = "GET", description = "注销")
-//    @RequestMapping("/logout")
-//    public SaResult logout() {
-//        return userService.logout();
-//    }
 
     @PostMapping(value = "/editPassword")
     @Operation(summary = "修改用户密码", method = "POST", description = "修改用户密码")
@@ -73,21 +60,14 @@ public class AdminUserController {
 //        return userAuthService.bindEmail(vo);
 //    }
 //
-//    @SaCheckLogin
-//    @Operation(summary = "修改用户信息", method = "POST", description = "修改用户信息")
-//    @PostMapping(value = "/updateUser")
-//    public SaResult updateUser(@RequestBody UpdateUserDTO updateUserDTO){
-//        return userService.updateUser(updateUserDTO);
-//    }
 
-//    @SaIgnore
-//    @GetMapping(value = "/quantity")
-//    @Operation(summary = "获取用户数量", method = "GET", description = "获取用户数量")
-//    public SaResult quantity(){
-//        int count = userService.count();
-//        String s = String.valueOf(count);
-//        return SaResult.ok(s);
-//    }
+    @Operation(summary = "管理员修改用户信息", method = "POST", description = "管理员修改用户信息")
+    @PostMapping(value = "/editUser")
+    public SaResult editUser(@RequestBody EditUserDTO editUserDTO){
+        return userService.editUser(editUserDTO);
+    }
+
+
 
 
     @GetMapping(value = "/list/{page}/{limit}")

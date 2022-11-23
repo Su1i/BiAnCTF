@@ -56,4 +56,8 @@ public interface UserService extends IService<User> {
 
     //管理员修改用户密码
     SaResult editPassword(EditPwdDTO editPwdDTO);
+
+
+    //管理员修改用户信息
+    SaResult editUser(EditUserDTO editUserDTO);
 }

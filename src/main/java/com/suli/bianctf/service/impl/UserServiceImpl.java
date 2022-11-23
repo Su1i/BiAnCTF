@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -319,6 +320,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return SaResult.ok("密码修改成功");
     }
 
+    @Override
+    public SaResult editUser(EditUserDTO editUserDTO) {
+        Long userId = editUserDTO.getUserId();
+        String email = editUserDTO.getEmail();
+        if (StrUtil.hasBlank(email)){
+            return SaResult.error("用户邮箱不能为空");
+        }
+        User user = baseMapper.selectById(userId);
+        if (!user.getEmail().equals(email)){
+            //查询用户邮箱是否已注册
+            QueryWrapper<User> queryWrapper = new QueryWrapper<User>().eq("email", email);
+            List<User> userList = baseMapper.selectList(queryWrapper);
+            //如果注册则返回修改邮箱失败
+            if (!userList.isEmpty()){
+                return SaResult.error("用户邮箱已注册");
+            }
+            //如果未注册则修改
+        }
+        BeanUtil.copyProperties(editUserDTO,user);
+        int i = baseMapper.updateById(user);
+        if (i==0){
+            return SaResult.error("修改失败");
+        }
+
+        return SaResult.ok("修改成功");
+    }
 
     //---------------自定义方法开始-------------
 

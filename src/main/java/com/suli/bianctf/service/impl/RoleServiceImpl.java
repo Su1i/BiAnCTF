@@ -33,19 +33,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         List<Role> roles = baseMapper.selectList(new QueryWrapper<>());
         return SaResult.data(roles);
     }
-//
-//    /**
-//     * 添加角色
-//     * @param role
-//     * @return
-//     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public SaResult insertRole(Role role) {
-//        baseMapper.insert(role);
-//        baseMapper.insertBatchByRole(role.getMenus(), role.getId());
-//        return SaResult.ok();
-//    }
+
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SaResult createRole(Role role) {
+        baseMapper.insert(role);
+        baseMapper.insertBatchByRole(role.getMenus(), role.getId());
+        return SaResult.ok();
+    }
 //
 //    /**
 //     * 修改角色

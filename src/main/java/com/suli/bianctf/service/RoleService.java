@@ -19,7 +19,7 @@ public interface RoleService extends IService<Role> {
 
     SaResult listRole(String name);
 //
-//    SaResult insertRole(Role role);
+    SaResult createRole(Role role);
 //
 //    SaResult updateRole(Role role);
 //

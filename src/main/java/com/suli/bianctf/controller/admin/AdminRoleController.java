@@ -3,6 +3,7 @@ package com.suli.bianctf.controller.admin;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.util.SaResult;
+import com.suli.bianctf.domain.Role;
 import com.suli.bianctf.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,13 +42,12 @@ public class AdminRoleController {
 //        return roleService.selectById(roleId);
 //    }
 //
-//    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @PostMapping(value = "create")
 //    @SaCheckPermission("/system/role/create")
-//    @ApiOperation(value = "添加角色", httpMethod = "POST", response = ResponseResult.class, notes = "添加角色")
-//    @OperationLogger(value = "添加角色")
-//    public ResponseResult insert(@RequestBody Role role) {
-//        return roleService.insertRole(role);
-//    }
+    @Operation(summary = "添加角色", method = "POST", description = "添加角色")
+    public SaResult insert(@RequestBody Role role) {
+        return roleService.createRole(role);
+    }
 //
 //    @RequestMapping(value = "update", method = RequestMethod.POST)
 //    @SaCheckPermission("/system/role/update")

@@ -31,6 +31,6 @@
     </insert>
 
     <select id="selectByUserId" resultType="java.lang.String">
-        select code from sys_role where id =(select role_id from lab_user where id=#{loginId})
+        select code from sys_role where id =(select role_id from sys_user_role where id=#{loginId})
     </select>
 </mapper>

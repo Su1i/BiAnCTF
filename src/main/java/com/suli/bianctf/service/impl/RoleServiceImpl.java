@@ -46,56 +46,56 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         baseMapper.insertBatchByRole(role.getMenus(), role.getId());
         return SaResult.ok();
     }
-//
-//    /**
-//     * 修改角色
-//     * @param role
-//     * @return
-//     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public SaResult updateRole(Role role) {
-//        baseMapper.updateById(role);
-//
-//        //先删所有权限在新增
-//        baseMapper.delByRoleId(role.getId(),null);
-//        baseMapper.insertBatchByRole(role.getMenus(), role.getId());
-//        return SaResult.ok("修改成功");
-//    }
-//
-//    /**
-//     * 删除角色
-//     * @param
-//     * @return
-//     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public SaResult deleteBatch(List<Integer> ids) {
-//        baseMapper.deleteBatchIds(ids);
-//        ids.forEach(id -> baseMapper.delByRoleId(id, null));
-//        return SaResult.ok();
-//    }
-//
-//    /**
-//     * 获取当前登录用户所拥有的权限
-//     * @param
-//     * @return
-//     */
-//    @Override
-//    public SaResult getCurrentUserRole() {
-//        Integer roleId = baseMapper.queryByUserId(StpUtil.getLoginId());
-//        List<Integer> list = baseMapper.queryByRoleMenu(roleId);
-//        return SaResult.data(list);
-//    }
-//
-//    /**
-//     * 获取该角色所有的权限
-//     * @param
-//     * @return
-//     */
-//    @Override
-//    public SaResult selectById(Integer roleId) {
-//        List<Integer> list = baseMapper.queryByRoleMenu(roleId);
-//        return SaResult.data(list);
-//    }
+
+    /**
+     * 修改角色
+     * @param role
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SaResult updateRole(Role role) {
+        baseMapper.updateById(role);
+
+        //先删所有权限在新增
+        baseMapper.delByRoleId(role.getId(),null);
+        baseMapper.insertBatchByRole(role.getMenus(), role.getId());
+        return SaResult.ok("修改成功");
+    }
+
+    /**
+     * 删除角色
+     * @param
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SaResult deleteBatch(List<Integer> ids) {
+        baseMapper.deleteBatchIds(ids);
+        ids.forEach(id -> baseMapper.delByRoleId(id, null));
+        return SaResult.ok();
+    }
+
+    /**
+     * 获取当前登录用户所拥有的权限
+     * @param
+     * @return
+     */
+    @Override
+    public SaResult getCurrentUserRole() {
+        Integer roleId = baseMapper.queryByUserId(StpUtil.getLoginId());
+        List<Integer> list = baseMapper.queryByRoleMenu(roleId);
+        return SaResult.data(list);
+    }
+
+    /**
+     * 获取该角色所有的权限
+     * @param
+     * @return
+     */
+    @Override
+    public SaResult selectById(Integer roleId) {
+        List<Integer> list = baseMapper.queryByRoleMenu(roleId);
+        return SaResult.data(list);
+    }
 }

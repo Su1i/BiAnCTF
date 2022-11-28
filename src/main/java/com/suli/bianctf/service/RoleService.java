@@ -20,13 +20,13 @@ public interface RoleService extends IService<Role> {
     SaResult listRole(String name);
 //
     SaResult createRole(Role role);
-//
-//    SaResult updateRole(Role role);
-//
-//    SaResult deleteBatch(List<Integer> ids);
-//
-//    SaResult getCurrentUserRole();
-//
-//    SaResult selectById(Integer roleId);
+
+    SaResult updateRole(Role role);
+
+    SaResult deleteBatch(List<Integer> ids);
+
+    SaResult getCurrentUserRole();
+
+    SaResult selectById(Integer roleId);
 
 }

@@ -48,22 +48,20 @@ public class AdminRoleController {
     public SaResult insert(@RequestBody Role role) {
         return roleService.createRole(role);
     }
-//
-//    @RequestMapping(value = "update", method = RequestMethod.POST)
-//    @SaCheckPermission("/system/role/update")
-//    @ApiOperation(value = "修改角色", httpMethod = "POST", response = ResponseResult.class, notes = "修改角色")
-//    @OperationLogger(value = "修改角色")
-//    public ResponseResult update(@RequestBody Role role) {
-//        return roleService.updateRole(role);
-//    }
-//
-//    @RequestMapping(value = "remove", method = RequestMethod.DELETE)
-//    @SaCheckPermission("/system/role/remove")
-//    @ApiOperation(value = "删除角色", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除角色")
-//    @OperationLogger(value = "删除角色")
-//    public ResponseResult deleteBatch(@RequestBody List<Integer> ids) {
-//        return roleService.deleteBatch(ids);
-//    }
+
+    @PostMapping(value = "update")
+    @SaCheckPermission("update")
+    @Operation(summary = "修改角色", method = "POST", description = "修改角色")
+    public SaResult update(@RequestBody Role role) {
+        return roleService.updateRole(role);
+    }
+
+    @DeleteMapping(value = "delete")
+    @SaCheckPermission("remove")
+    @Operation(summary = "删除角色", method = "DELETE", description = "删除角色")
+    public SaResult deleteBatch(@RequestBody List<Integer> ids) {
+        return roleService.deleteBatch(ids);
+    }
 
 
 }
